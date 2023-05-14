@@ -16,5 +16,5 @@ async def say_hello(name: str):
 
 
 @app.post("/hello")
-async def hello_message(dto: ISayHelloDto):
+async def hello_message(dto: IHelloDto):
     return {"message": f"Hello {dto.message}"}
