@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 
-from src.dtos.ISayHelloDto import ISayHelloDto
+from src.dtos.IHelloDto import IHelloDto
 
 app = FastAPI()
 
