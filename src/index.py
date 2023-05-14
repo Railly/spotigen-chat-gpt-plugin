@@ -1,8 +1,9 @@
 from fastapi import FastAPI, Request
 from fastapi.responses import JSONResponse, PlainTextResponse, FileResponse
 from fastapi.middleware.cors import CORSMiddleware
-from typing import Optional, List
+from src.dtos.IHelloDto import IHelloDto
 import yaml
+
 
 app = FastAPI()
 
@@ -44,7 +45,7 @@ async def delete_todo(username: str, request: Request):
 
 @app.get("/logo.png")
 async def plugin_logo():
-    filename = 'logo.png'
+    filename = './logo.png'
     return FileResponse(filename, media_type='image/png')
 
 @app.get("/.well-known/ai-plugin.json")
@@ -55,14 +56,18 @@ async def plugin_manifest():
 
 @app.get("/openapi.yaml")
 async def openapi_spec():
-    with open("openapi.yaml") as f:
+    with open("./.well-known/openapi.yaml") as f:
         text = f.read()
         return PlainTextResponse(text, media_type="text/yaml")
 
 @app.get("/")
 async def root():
-    return PlainTextResponse("Hello World!")
+    return {"message": "Hello World"}
 
-if __name__ == "__main__":
-    import uvicorn
-    uvicorn.run(app, host="0.0.0.0", port=8000)
+@app.get("/hello/{name}")
+async def say_hello(name: str):
+    return {"message": f"Hello {name}"}
+
+@app.post("/hello")
+async def hello_message(dto: IHelloDto):
+    return {"message": f"Hello {dto.message}"}
