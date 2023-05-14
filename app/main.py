@@ -63,13 +63,6 @@ async def openapi_spec():
 async def root():
     return PlainTextResponse("Hello World!")
 
-@app.get("/generate-openapi-yaml")
-def generate_openapi_yaml():
-    openapi_dict = app.openapi()
-    with open("openapi.yaml", "w") as file:
-        yaml.dump(openapi_dict, file)
-    return {"detail": "OpenAPI specification has been generated"}
-
 if __name__ == "__main__":
     import uvicorn
-    uvicorn.run(app, host="0.0.0.0", port=5003)
+    uvicorn.run(app, host="0.0.0.0", port=8000)
