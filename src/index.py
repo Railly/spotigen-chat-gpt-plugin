@@ -18,6 +18,8 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+app.mount("/static", StaticFiles(directory="static"), name="static")
+
 # Keep track of todo's. Does not persist if Python session is restarted.
 _TODOS = {}
 
@@ -44,20 +46,16 @@ async def delete_todo(username: str, request: Request):
 
 @app.get("/logo.png")
 async def plugin_logo():
-    filename = './logo.png'
+    filename = './static/logo.png'
     return FileResponse(filename, media_type='image/png')
 
 @app.get("/.well-known/ai-plugin.json")
 async def plugin_manifest():
-    with open("./.well-known/ai-plugin.json") as f:
-        text = f.read()
-        return JSONResponse(content=text, status_code=200)
+    return FileResponse("static/ai-plugin.json")
 
 @app.get("/openapi.yaml")
 async def openapi_spec():
-    with open("./.well-known/openapi.yaml") as f:
-        text = f.read()
-        return PlainTextResponse(text, media_type="text/yaml")
+    return FileResponse("static/openapi.yaml")
 
 @app.get("/")
 async def root():
