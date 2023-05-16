@@ -1,93 +1,247 @@
-openapi: 3.0.1
+openapi: "3.0.2"
 info:
-  title: TODO Plugin
-  description: A plugin that allows the user to create and manage a TODO list using ChatGPT. If you do not know the user's username, ask them first before making queries to the plugin. Otherwise, use the username "global".
+  title: Spotigen
+  description: Plugin to craft personalized music playlists based on a user's mood, daily experiences, or preferences. By interpreting descriptions of the user's day or emotional state, the plugin generates playlists that mirror these feelings. MoodTune can also enhance user-generated content such as social media stories or statuses by suggesting mood-congruent music. Additionally, it can construct playlists drawing inspiration from the user's favorite lists. Use it whenever a user desires to channel their emotions into music, enhance their online content with appropriate soundtracks, or explore new melodies resonating with their favorites.
   version: 'v1'
 servers:
-  - url: http://localhost:5003
+  - url: https://f155-38-25-25-120.ngrok-free.app
 paths:
-  /todos/{username}:
+  "/":
     get:
-      operationId: getTodos
-      summary: Get the list of todos
-      parameters:
-      - in: path
-        name: username
-        schema:
-            type: string
-        required: true
-        description: The name of the user.
+      summary: "Root"
+      operationId: "root__get"
       responses:
-        "200":
-          description: OK
+        200:
+          description: "Successful Response"
+          content:
+            application/json:
+              schema: {}
+  "/logo.png":
+    get:
+      summary: "Plugin Logo"
+      operationId: "plugin_logo_logo_png_get"
+      responses:
+        200:
+          description: "Successful Response"
+          content:
+            application/json:
+              schema: {}
+  "/.well-known/ai-plugin.json":
+    get:
+      summary: "Plugin Manifest"
+      operationId: "plugin_manifest__well_known_ai_plugin_json_get"
+      responses:
+        200:
+          description: "Successful Response"
+          content:
+            application/json:
+              schema: {}
+  "/openapi.yaml":
+    get:
+      summary: "Openapi Spec"
+      operationId: "openapi_spec_openapi_yaml_get"
+      responses:
+        200:
+          description: "Successful Response"
+          content:
+            application/json:
+              schema: {}
+  "/playlist":
+    get:
+      summary: "Get Playlist"
+      operationId: "get_playlist_playlist_get"
+      parameters:
+        - required: true
+          schema:
+            title: "Name"
+            type: "string"
+          name: "name"
+          in: "query"
+      responses:
+        200:
+          description: "Successful Response"
+          content:
+            application/json:
+              schema: {}
+        422:
+          description: "Validation Error"
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/getTodosResponse'
+                $ref: "#/components/schemas/HTTPValidationError"
+      security:
+        - HTTPBearer: []
     post:
-      operationId: addTodo
-      summary: Add a todo to the list
+      summary: "Create Playlist"
+      operationId: "create_playlist_playlist_post"
       parameters:
-      - in: path
-        name: username
-        schema:
-            type: string
-        required: true
-        description: The name of the user.
+        - required: true
+          schema:
+            title: "Name"
+            type: "string"
+          name: "name"
+          in: "query"
+        - required: true
+          schema:
+            title: "Public"
+            type: "boolean"
+          name: "public"
+          in: "query"
+      responses:
+        200:
+          description: "Successful Response"
+          content:
+            application/json:
+              schema: {}
+        422:
+          description: "Validation Error"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HTTPValidationError"
+      security:
+        - HTTPBearer: []
+  "/playlist/{playlist_id}/tracks":
+    get:
+      summary: "Get Playlist Tracks"
+      operationId: "get_playlist_tracks_playlist__playlist_id__tracks_get"
+      parameters:
+        - required: true
+          schema:
+            title: "Playlist Id"
+            type: "string"
+          name: "playlist_id"
+          in: "path"
+      responses:
+        200:
+          description: "Successful Response"
+          content:
+            application/json:
+              schema: {}
+        422:
+          description: "Validation Error"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HTTPValidationError"
+      security:
+        - HTTPBearer: []
+    post:
+      summary: "Add Tracks To Playlist"
+      operationId: "add_tracks_to_playlist_playlist__playlist_id__tracks_post"
+      parameters:
+        - required: true
+          schema:
+            title: "Playlist Id"
+            type: "string"
+          name: "playlist_id"
+          in: "path"
       requestBody:
-        required: true
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/addTodoRequest'
+              $ref: "#/components/schemas/TrackTitles"
+        required: true
       responses:
-        "200":
-          description: OK
+        200:
+          description: "Successful Response"
+          content:
+            application/json:
+              schema: {}
+        422:
+          description: "Validation Error"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HTTPValidationError"
+      security:
+        - HTTPBearer: []
     delete:
-      operationId: deleteTodo
-      summary: Delete a todo from the list
+      summary: "Remove Tracks From Playlist"
+      operationId: "remove_tracks_from_playlist_playlist__playlist_id__tracks_delete"
       parameters:
-      - in: path
-        name: username
-        schema:
-            type: string
-        required: true
-        description: The name of the user.
+        - required: true
+          schema:
+            title: "Playlist Id"
+            type: "string"
+          name: "playlist_id"
+          in: "path"
       requestBody:
-        required: true
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/deleteTodoRequest'
+              $ref: "#/components/schemas/TrackURIs"
+        required: true
       responses:
-        "200":
-          description: OK
-
+        200:
+          description: "Successful Response"
+          content:
+            application/json:
+              schema: {}
+        422:
+          description: "Validation Error"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HTTPValidationError"
+      security:
+        - HTTPBearer: []
 components:
   schemas:
-    getTodosResponse:
-      type: object
+    HTTPValidationError:
+      title: "HTTPValidationError"
+      type: "object"
       properties:
-        todos:
-          type: array
+        detail:
+          title: "Detail"
+          type: "array"
           items:
-            type: string
-          description: The list of todos.
-    addTodoRequest:
-      type: object
+            $ref: "#/components/schemas/ValidationError"
+    TrackTitles:
+      title: "TrackTitles"
       required:
-      - todo
+        - "titles"
+      type: "object"
       properties:
-        todo:
-          type: string
-          description: The todo to add to the list.
-          required: true
-    deleteTodoRequest:
-      type: object
+        titles:
+          title: "Titles"
+          type: "array"
+          items:
+            type: "string"
+    TrackURIs:
+      title: "TrackURIs"
       required:
-      - todo_idx
+        - "track_uris"
+      type: "object"
       properties:
-        todo_idx:
-          type: integer
-          description: The index of the todo to delete.
-          required: true
+        track_uris:
+          title: "Track Uris"
+          type: "array"
+          items:
+            type: "string"
+    ValidationError:
+      title: "ValidationError"
+      required:
+        - "loc"
+        - "msg"
+        - "type"
+      type: "object"
+      properties:
+        loc:
+          title: "Location"
+          type: "array"
+          items:
+            anyOf:
+              - type: "string"
+              - type: "integer"
+        msg:
+          title: "Message"
+          type: "string"
+        type:
+          title: "Error Type"
+          type: "string"
+  securitySchemes:
+    HTTPBearer:
+      type: "http"
+      scheme: "bearer"
+

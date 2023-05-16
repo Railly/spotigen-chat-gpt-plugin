@@ -1,10 +1,12 @@
 import json
 import requests
+from src.dtos.api import TrackTitles, TrackURIs
 
 class SpotifyClient:
     def __init__(self, access_token):
         self.access_token = access_token
         self.base_url = 'https://api.spotify.com/v1'
+        self.self.user_id = self.get_my_user_id()    
 
     def _auth_headers(self):
         return {
@@ -21,13 +23,24 @@ class SpotifyClient:
             return user_data["id"]
         else:
             print(f"Error: {response.status_code}")
-            return None
+            raise HTTPException(status_code=401, detail="Invalid or missing access token")
+    
+    def search_track(self, query: str, limit=10):
+        params = {
+            'q': query,
+            'type': 'track',
+            'limit': limit
+        }
+        response = requests.get(
+            f'{self.base_url}/search', headers=self._auth_headers(), params=params)
+        response.raise_for_status()
+        return response.json()['tracks']['items']
 
-    def get_user_playlists(self, user_id: str):
+    def get_user_playlists(self):
         playlists = []
         offset = 0
         limit = 50
-        url = f'{self.base_url}/users/{user_id}/playlists?limit={limit}&offset={offset}'
+        url = f'{self.base_url}/users/{self.user_id}/playlists?limit={limit}&offset={offset}'
         content = {"next": url}
         while len(playlists) < 500 and content['next']:
             response = requests.get(
@@ -39,27 +52,27 @@ class SpotifyClient:
         print(json.dumps(playlists, indent=4))
         return playlists
 
-    def find_playlist(self, name: str, user_id: str):
-        playlists = self.get_user_playlists(user_id)
+    def find_playlist(self, name: str):
+        playlists = self.get_user_playlists()
         for playlist in playlists:
             if playlist['name'] == name:
                 return playlist
 
         return None
 
-    def create_playlist(self, user_id: str, name: str, public: bool):
+    def create_playlist(self, name: str, public: bool):
         data = {
             'name': name,
             'public': public
         }
         print(data)
         response = requests.post(
-            f'{self.base_url}/users/{user_id}/playlists', headers=self._auth_headers(), json=data)
+            f'{self.base_url}/users/{self.user_id}/playlists', headers=self._auth_headers(), json=data)
         response.raise_for_status()
 
         return response.json()['id']
 
-    def get_songs_from_playlist(self, playlist_id: str):
+    def get_tracks_from_playlist(self, playlist_id: str):
         response = requests.get(
             f'{self.base_url}/playlists/{playlist_id}/tracks', headers=self._auth_headers())
         response.raise_for_status()
@@ -77,30 +90,26 @@ class SpotifyClient:
 
         return {"tracks": tracks}
 
-    def add_songs_to_playlist(self, playlist_id: str, song_uris: list[str]):
+    def add_tracks_to_playlist(self, playlist_id: str, track_titles: TrackTitles):
+        tracks_uris = []
+        for title in track_list.titles:
+            tracks = spotify.search_track(title, limit=10)
+            if len(tracks) > 0:
+                tracks_uris.append(tracks[0]['uri'])
+            else:
+                print(f'No tracks found for {title}')
         data = {
-            'uris': song_uris
+            'uris': tracks_uris
         }
         response = requests.post(
             f'{self.base_url}/playlists/{playlist_id}/tracks', headers=self._auth_headers(), json=data)
         response.raise_for_status()
 
-    def remove_songs_from_playlist(self, playlist_id: str, track_uris: list[str]):
+    def remove_tracks_from_playlist(self, playlist_id: str, track_uris: TrackURIs): 
         data = {
-            'tracks': [{'uri': uri} for uri in track_uris]
+            'tracks': [{'uri': uri} for uri in track_uris.track_uris]
         }
         print(data)
         response = requests.delete(
             f'{self.base_url}/playlists/{playlist_id}/tracks', headers=self._auth_headers(), json=data)
         response.raise_for_status()
-
-    def search_track(self, query: str, limit=10):
-        params = {
-            'q': query,
-            'type': 'track',
-            'limit': limit
-        }
-        response = requests.get(
-            f'{self.base_url}/search', headers=self._auth_headers(), params=params)
-        response.raise_for_status()
-        return response.json()['tracks']['items']

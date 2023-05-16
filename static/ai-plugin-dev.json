@@ -16,10 +16,10 @@
     },
     "api": {
       "type": "openapi",
-      "url": "https://spotigen.vercel.app/openapi.yaml",
+      "url": "https://f155-38-25-25-120.ngrok-free.app/static/openapi.yaml",
       "is_user_authenticated": false
     },
-    "logo_url": "https://spotigen.vercel.app/logo.png",	
+    "logo_url": "https://f155-38-25-25-120.ngrok-free.app/static/logo.png",	
     "contact_email": "legal@example.com",
     "legal_info_url": "http://example.com/legal"
   }
