@@ -6,7 +6,7 @@ class SpotifyClient:
     def __init__(self, access_token):
         self.access_token = access_token
         self.base_url = 'https://api.spotify.com/v1'
-        self.self.user_id = self.get_my_user_id()    
+        self.user_id = self.get_my_user_id()    
 
     def _auth_headers(self):
         return {
