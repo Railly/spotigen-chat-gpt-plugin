@@ -11,7 +11,7 @@
     "authorization_url": "https://accounts.spotify.com/api/token",
     "authorization_content_type": "application/x-www-form-urlencoded",
     "verification_tokens": {
-      "openai": "<chatgpt_will_show_you_this_key>"
+      "openai": "d50d5fe1dd534426afce4cd84a5f5be3"
     }
   },
   "api": {
