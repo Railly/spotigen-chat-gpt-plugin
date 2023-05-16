@@ -1,26 +1,25 @@
 {
-    "schema_version": "v1",
-    "name_for_human": "Spotigen (PROD)",
-    "name_for_model": "Spotigen",
-    "description_for_model": "Plugin to craft personalized music playlists based on a user's mood, daily experiences, or preferences. By interpreting descriptions of the user's day or emotional state, the plugin generates playlists that mirror these feelings. MoodTune can also enhance user-generated content such as social media stories or statuses by suggesting mood-congruent music. Additionally, it can construct playlists drawing inspiration from the user's favorite lists. Use it whenever a user desires to channel their emotions into music, enhance their online content with appropriate soundtracks, or explore new melodies resonating with their favorites.",
-    "description_for_human": "Spotigen is your personal AI DJ that crafts playlists to match your mood, day, or favorite songs. It can also recommend music for your social media content.",
-    "auth": {
-      "type": "oauth",
-      "client_url": "https://accounts.spotify.com/authorize",
-      "scope": "playlist-modify-public",
-      "authorization_url": "https://accounts.spotify.com/api/token",
-      "authorization_content_type": "application/x-www-form-urlencoded",
-      "verification_tokens": {
-        "openai": "<chatgpt_will_show_you_this_key>"
-      }
-    },
-    "api": {
-      "type": "openapi",
-      "url": "https://spotigen.vercel.app/static/openapi.yaml",
-      "is_user_authenticated": false
-    },
-    "logo_url": "https://spotigen.vercel.app/static/logo.png",	
-    "contact_email": "legal@example.com",
-    "legal_info_url": "http://example.com/legal"
-  }
-  
+  "schema_version": "v1",
+  "name_for_human": "Spotigen (PROD)",
+  "name_for_model": "Spotigen",
+  "description_for_model": "Plugin to craft personalized music playlists based on a user's mood, daily experiences, or preferences. By interpreting descriptions of the user's day or emotional state, the plugin generates playlists that mirror these feelings. MoodTune can also enhance user-generated content such as social media stories or statuses by suggesting mood-congruent music. Additionally, it can construct playlists drawing inspiration from the user's favorite lists. Use it whenever a user desires to channel their emotions into music, enhance their online content with appropriate soundtracks, or explore new melodies resonating with their favorites.",
+  "description_for_human": "Spotigen is your personal AI DJ that crafts playlists to match your mood, day, or favorites.",
+  "auth": {
+    "type": "oauth",
+    "client_url": "https://accounts.spotify.com/authorize",
+    "scope": "playlist-modify-public",
+    "authorization_url": "https://accounts.spotify.com/api/token",
+    "authorization_content_type": "application/x-www-form-urlencoded",
+    "verification_tokens": {
+      "openai": "<chatgpt_will_show_you_this_key>"
+    }
+  },
+  "api": {
+    "type": "openapi",
+    "url": "https://spotigen.vercel.app/static/openapi.yaml",
+    "is_user_authenticated": false
+  },
+  "logo_url": "https://spotigen.vercel.app/static/logo.png",
+  "contact_email": "legal@example.com",
+  "legal_info_url": "http://example.com/legal"
+}
