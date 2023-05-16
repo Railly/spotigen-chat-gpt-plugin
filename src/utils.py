@@ -1,5 +1,6 @@
 from fastapi import Depends
 from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
+from src.services.spotify import SpotifyClient
 
 bearer_scheme = HTTPBearer()
 
