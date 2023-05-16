@@ -92,7 +92,7 @@ class SpotifyClient:
 
     def add_tracks_to_playlist(self, playlist_id: str, track_titles: TrackTitles):
         tracks_uris = []
-        for title in track_list.titles:
+        for title in track_titles.titles:
             tracks = spotify.search_track(title, limit=10)
             if len(tracks) > 0:
                 tracks_uris.append(tracks[0]['uri'])
