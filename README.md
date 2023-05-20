@@ -9,6 +9,15 @@ A plugin for <a href="https://chat.openai.com/">Chat GPT</a> that allows you to 
   <br>
 </p>
 
+## Installation
+
+1. Go to [ChatGPT](https://chat.openai.com/)
+2. Go to: `Plugin Store` > `Install an unverified plugin`
+3. Enter the following domain: `spotigen.vercel.app`
+4. OpenAI will warn you that the plugin is unverified. Click `Continue`.
+5. Click `Login with Spotigen (PROD)`.
+6. Now you're ready to use the plugin!
+
 ## Setup development environment
 
 ### Setup a Spotify app
@@ -96,3 +105,4 @@ Once the plugin is installed, you'd like to try the following prompts:
 > **Prompt 1**: "I have a favorite playlist named 'Chill Vibes' that I absolutely love and listen to all the time. Could you create a new playlist inspired by my 'Chill Vibes' playlist? I want to discover similar songs and artists that I might enjoy."
 
 > **Prompt 2**: "There's this one artist named 'John Smith' who is my absolute favorite, and I can't get enough of their music. Could you curate a playlist based on 'John Smith's' style and genre? I'm looking to explore more songs that resonate with their sound."
+
