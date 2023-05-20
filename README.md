@@ -13,7 +13,7 @@ A plugin for <a href="https://chat.openai.com/">Chat GPT</a> that allows you to 
 
 1. Go to [ChatGPT](https://chat.openai.com/)
 2. Go to: `Plugin Store` > `Install an unverified plugin`
-3. Enter the following domain: `spotigen.vercel.app`
+3. Enter the following domain: [spotigen.vercel.app](https://spotigen.vercel.app)
 4. OpenAI will warn you that the plugin is unverified. Click `Continue`.
 5. Click `Login with Spotigen (PROD)`.
 6. Now you're ready to use the plugin!
