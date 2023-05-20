@@ -2,8 +2,8 @@
   "schema_version": "v1",
   "name_for_human": "Spotigen (PROD)",
   "name_for_model": "Spotigen",
-  "description_for_model": "Plugin to craft personalized music playlists based on a user's mood, daily experiences, or preferences. By interpreting descriptions of the user's day or emotional state, the plugin generates playlists that mirror these feelings. Spotigen can also enhance user-generated content such as social media stories or statuses by suggesting mood-congruent music. Additionally, it can construct playlists drawing inspiration from the user's favorite lists. Use it whenever a user desires to channel their emotions into music, enhance their online content with appropriate soundtracks, or explore new melodies resonating with their favorites.",
-  "description_for_human": "Spotigen is your personal AI DJ that crafts playlists to match your mood, day, or favorites.",
+  "description_for_model": "Spotigen crafts personalized music playlists based on a user's mood, daily experiences, or preferences. It enhances user-generated content with mood-congruent music and can create playlists from user's favorites.",
+  "description_for_human": "Spotigen is an AI DJ crafting playlists to match your mood or day, and enhancing your content with suitable music.",
   "auth": {
     "type": "oauth",
     "client_url": "https://accounts.spotify.com/authorize",
@@ -20,6 +20,6 @@
     "is_user_authenticated": false
   },
   "logo_url": "https://spotigen.vercel.app/static/logo.png",
-  "contact_email": "legal@example.com",
-  "legal_info_url": "http://example.com/legal"
+  "contact_email": "railly.angelo@gmail.com",
+  "legal_info_url": "http://raillyhugo.com/legal"
 }

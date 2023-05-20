@@ -31,9 +31,12 @@ class SpotifyClient:
             'type': 'track',
             'limit': limit
         }
-        response = requests.get(
-            f'{self.base_url}/search', headers=self._auth_headers(), params=params)
-        response.raise_for_status()
+        try:
+            response = requests.get(
+                f'{self.base_url}/search', headers=self._auth_headers(), params=params)
+            response.raise_for_status()
+        except requests.HTTPError:
+            raise HTTPException(status_code=response.status_code, detail=f"Failed to search track. Error: {response.text}")
         return response.json()['tracks']['items']
 
     def get_user_playlists(self):
@@ -43,13 +46,15 @@ class SpotifyClient:
         url = f'{self.base_url}/users/{self.user_id}/playlists?limit={limit}&offset={offset}'
         content = {"next": url}
         while len(playlists) < 500 and content['next']:
-            response = requests.get(
-                content['next'], headers=self._auth_headers())
-            response.raise_for_status()
+            try:
+                response = requests.get(
+                    content['next'], headers=self._auth_headers())
+                response.raise_for_status()
+            except requests.HTTPError:
+                raise HTTPException(status_code=response.status_code, detail=f"Failed to get user playlists. Error: {response.text}")
             content = response.json()
             for playlist in response.json()['items']:
                 playlists.append(playlist)
-        print(json.dumps(playlists, indent=4))
         return playlists
 
     def find_playlist(self, name: str):
@@ -65,17 +70,21 @@ class SpotifyClient:
             'name': name,
             'public': public
         }
-        print(data)
-        response = requests.post(
-            f'{self.base_url}/users/{self.user_id}/playlists', headers=self._auth_headers(), json=data)
-        response.raise_for_status()
-
+        try:
+            response = requests.post(
+                f'{self.base_url}/users/{self.user_id}/playlists', headers=self._auth_headers(), json=data)
+            response.raise_for_status()
+        except requests.HTTPError:
+            raise HTTPException(status_code=response.status_code, detail=f"Failed to create playlist. Error: {response.text}")
         return response.json()['id']
 
     def get_tracks_from_playlist(self, playlist_id: str):
-        response = requests.get(
-            f'{self.base_url}/playlists/{playlist_id}/tracks', headers=self._auth_headers())
-        response.raise_for_status()
+        try:
+            response = requests.get(
+                f'{self.base_url}/playlists/{playlist_id}/tracks', headers=self._auth_headers())
+            response.raise_for_status()
+        except requests.HTTPError:
+            raise HTTPException(status_code=response.status_code, detail=f"Failed to get tracks from playlist. Error: {response.text}")
 
         tracks = []
         for track in response.json()['items']:
@@ -101,15 +110,20 @@ class SpotifyClient:
         data = {
             'uris': tracks_uris
         }
-        response = requests.post(
-            f'{self.base_url}/playlists/{playlist_id}/tracks', headers=self._auth_headers(), json=data)
-        response.raise_for_status()
+        try:
+            response = requests.post(
+                f'{self.base_url}/playlists/{playlist_id}/tracks', headers=self._auth_headers(), json=data)
+            response.raise_for_status()
+        except requests.HTTPError:
+            raise HTTPException(status_code=response.status_code, detail=f"Failed to add tracks to playlist. Error: {response.text}")
 
     def remove_tracks_from_playlist(self, playlist_id: str, track_uris: TrackURIs): 
         data = {
             'tracks': [{'uri': uri} for uri in track_uris.track_uris]
         }
-        print(data)
-        response = requests.delete(
-            f'{self.base_url}/playlists/{playlist_id}/tracks', headers=self._auth_headers(), json=data)
-        response.raise_for_status()
+        try:
+            response = requests.delete(
+                f'{self.base_url}/playlists/{playlist_id}/tracks', headers=self._auth_headers(), json=data)
+            response.raise_for_status()
+        except requests.HTTPError:
+            raise HTTPException(status_code=response.status_code, detail=f"Failed to remove tracks from playlist. Error: {response.text}")
