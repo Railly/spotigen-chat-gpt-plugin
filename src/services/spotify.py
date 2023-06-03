@@ -1,6 +1,13 @@
 import json
 import requests
 from src.dtos.api import TrackTitles, TrackURIs
+from fastapi import HTTPException
+
+class InvalidAccessToken(Exception):
+    pass
+
+class SpotifyAPIError(Exception):
+    pass
 
 class SpotifyClient:
     def __init__(self, access_token):
@@ -14,16 +21,16 @@ class SpotifyClient:
             'Content-Type': 'application/json'
         }
 
+
     def get_my_user_id(self):
         response = requests.get(
             f'{self.base_url}/me', headers=self._auth_headers())
-
-        if response.status_code == 200:
-            user_data = response.json()
-            return user_data["id"]
-        else:
-            print(f"Error: {response.status_code}")
+        
+        if response.status_code != 200:
             raise HTTPException(status_code=401, detail="Invalid or missing access token")
+        
+        user_data = response.json()
+        return user_data["id"]
     
     def search_track(self, query: str, limit=10):
         params = {

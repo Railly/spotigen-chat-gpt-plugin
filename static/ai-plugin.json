@@ -1,6 +1,6 @@
 {
   "schema_version": "v1",
-  "name_for_human": "Spotigen (PROD)",
+  "name_for_human": "Spotigen",
   "name_for_model": "Spotigen",
   "description_for_model": "Spotigen crafts personalized music playlists based on a user's mood, daily experiences, or preferences. It enhances user-generated content with mood-congruent music and can create playlists from user's favorites.",
   "description_for_human": "Spotigen is an AI DJ crafting playlists to match your mood or day, and enhancing your content with suitable music.",
@@ -17,7 +17,7 @@
   "api": {
     "type": "openapi",
     "url": "https://spotigen.vercel.app/static/openapi.yaml",
-    "is_user_authenticated": false
+    "is_user_authenticated": true
   },
   "logo_url": "https://spotigen.vercel.app/static/logo.png",
   "contact_email": "railly.angelo@gmail.com",
