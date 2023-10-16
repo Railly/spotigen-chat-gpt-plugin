@@ -5,7 +5,7 @@
 </h3>
 
 <p align="center">
-A plugin for <a href="https://chat.openai.com/">Chat GPT</a> that allows you to generate Spotify playlists based on your mood.
+A <a href="https://chat.openai.com/">Chat GPT</a> Plugin that generates Spotify playlists 🎵 based on your prompts ✨.
   <br>
 </p>
 
